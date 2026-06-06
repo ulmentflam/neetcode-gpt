@@ -19,11 +19,11 @@ class Solution:
             if context.shape[0] > context_length:
                 context = context[:, -context_length:]
             logits = model(context)
-            probs = F.softmax(logits[:, -1], dim=-1)
+            probs = F.softmax(logits, dim=-1).squeeze(0)
             # The line where you call torch.multinomial(). Pass in the generator as well.
             generator.set_state(initial_state)
             tok = torch.multinomial(probs, 1, generator=generator)
-            context = torch.cat((context, tok), dim = -1)
+            torch.cat((context, tok), dim=1)
             result += int_to_char[tok.item()]
 
         return result

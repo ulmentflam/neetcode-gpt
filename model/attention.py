@@ -33,7 +33,7 @@ class SingleHeadAttention(nn.Module):
         d_k = K.shape[-1]
         # (B, T, C) @ (B, C, T) -> B, T, T
         scores = Q @ K.transpose(-1, -2) / math.sqrt(d_k)
-        mask = torch.triu(torch.ones(T, T), diagonal=1) == 1
+        mask = torch.tril(torch.ones(T, T)) == 0
         scores = scores.masked_fill(mask, float('-inf'))
         scores = F.softmax(scores, dim=-1)
         return torch.round(scores @ V, decimals=4)

@@ -25,10 +25,9 @@ class TransformerBlock(nn.Module):
         #   x = x + attention(layer_norm_1(x))
         #   x = x + feed_forward(layer_norm_2(x))
         # Return result rounded to 4 decimal places
-        x = embedded
-        x = x + self.attn(self.ln1(x))
-        x = x + self.mlp(self.ln2(x))
-        return torch.round(x, decimals=4)
+        embedded = embedded + self.attn(self.ln1(embedded))
+        embedded = embedded + self.mlp(self.ln2(embedded))
+        return torch.round(embedded, decimals=4)
 
     class MultiHeadedSelfAttention(nn.Module):
 

@@ -13,7 +13,7 @@ class Solution:
         # sample batches from data, run forward/backward, update weights.
         # Return the final loss rounded to 4 decimals.
         D: int  = len(data)
-        optimizer = AdamW(model.parameters(), lr=lr)
+        optimizer = AdamW(model.parameters(), lr=lr) # For fun, rewrite this by hand
 
         for epoch in range(epochs):
             torch.manual_seed(epoch)
@@ -23,7 +23,7 @@ class Solution:
 
             logits = model(x)
             B,T,C = logits.shape
-            loss = F.cross_entropy(logits.view(B*T, C), y.view(B*T))
+            loss = F.cross_entropy(logits.view(B*T, C), y.view(B*T)) # For fun, rewrite this by hand
 
             optimizer.zero_grad()
             loss.backward()
